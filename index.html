@@ -16,12 +16,13 @@
     <label>점심값 인원: <input type="number" id="lunchCount" value="2" min="0"></label>
     <label>커피값 인원: <input type="number" id="coffeeCount" value="1" min="0"></label>
     <button onclick="setupRoulette()">룰렛 구성하기</button>
+    <button onclick="resetRoulette()">리셋</button>
   </div>
 
   <div class="roulette-container">
-    <canvas id="roulette" width="500" height="500"></canvas>
+    <canvas id="roulette" width="400" height="400"></canvas>
     <div class="pointer"></div>
-    <button onclick="spinRoulette()">돌리기!</button>
+    <button class="spin-btn" onclick="spinRoulette()">돌리기!</button>
   </div>
 
   <div id="result"></div>
