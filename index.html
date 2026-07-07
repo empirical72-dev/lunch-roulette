@@ -2,29 +2,31 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>점심 룰렛</title>
+  <title>점심 룰렛 🎰</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>점심 룰렛 🎰</h1>
 
   <div class="settings">
-    <label>참가자 이름 추가: 
-      <input type="text" id="participantInput" placeholder="이름 입력">
-      <button onclick="addParticipant()">추가</button>
-    </label>
-    <br><br>
+    <input type="text" id="participantInput" placeholder="참가자 이름 입력">
+    <button onclick="addParticipant()">추가</button>
+    <div id="participantList"></div>
+
     <label>점심값 인원: <input type="number" id="lunchCount" value="2" min="0"></label>
     <label>커피값 인원: <input type="number" id="coffeeCount" value="1" min="0"></label>
     <button onclick="setupRoulette()">룰렛 구성하기</button>
   </div>
 
   <div class="roulette-container">
-    <div id="roulette" class="roulette-wheel"></div>
+    <canvas id="roulette" width="500" height="500"></canvas>
+    <div class="pointer"></div>
     <button onclick="spinRoulette()">돌리기!</button>
   </div>
 
   <div id="result"></div>
+  <h2>전체 결과</h2>
+  <ul id="history"></ul>
 
   <script src="script.js"></script>
 </body>
