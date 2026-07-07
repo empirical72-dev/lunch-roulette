@@ -1,40 +1,55 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Georgia', serif;
   text-align: center;
-  background: #f9f9f9;
-  color: #333;
+  background: radial-gradient(circle at center, #222 0%, #000 100%);
+  color: gold;
 }
 
 h1 {
-  margin-top: 20px;
-  color: #444;
+  text-shadow: 2px 2px 8px black;
 }
 
-.input-area {
+.settings {
   margin: 20px;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
 }
 
-input {
-  padding: 8px;
-  font-size: 14px;
+.roulette-container {
+  margin-top: 30px;
+}
+
+.roulette-wheel {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 10px solid gold;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 0 20px rgba(0,0,0,0.5);
+  margin: 0 auto;
+  background: conic-gradient(
+    red 0deg 30deg,
+    black 30deg 60deg,
+    red 60deg 90deg,
+    black 90deg 120deg,
+    red 120deg 150deg,
+    black 150deg 180deg,
+    red 180deg 210deg,
+    black 210deg 240deg,
+    red 240deg 270deg,
+    black 270deg 300deg,
+    red 300deg 330deg,
+    black 330deg 360deg
+  );
+  transition: transform 4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 button {
-  padding: 8px 12px;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.roulette-btn {
   margin-top: 20px;
-  background: #ff5252;
-  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: gold;
   border: none;
   border-radius: 5px;
-}
-
-#roulette {
-  margin-top: 30px;
-  border: 5px solid #333;
-  border-radius: 50%;
+  cursor: pointer;
 }
