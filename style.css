@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f9f9f9;
+  color: #333;
+}
+
+h1 {
+  margin-top: 20px;
+  color: #444;
+}
+
+.input-area {
+  margin: 20px;
+}
+
+input {
+  padding: 8px;
+  font-size: 14px;
+}
+
+button {
+  padding: 8px 12px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.roulette-btn {
+  margin-top: 20px;
+  background: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#result {
+  margin-top: 30px;
+  font-size: 20px;
+  color: #0077cc;
+}

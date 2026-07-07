@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>점심 내기 룰렛</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>점심 내기 룰렛 🍽️</h1>
+  
+  <div class="input-area">
+    <input type="text" id="nameInput" placeholder="참가자 이름 입력">
+    <button onclick="addName()">추가</button>
+  </div>
+
+  <ul id="nameList"></ul>
+
+  <button class="roulette-btn" onclick="pickWinner()">룰렛 돌리기 🎲</button>
+
+  <h2 id="result"></h2>
+
+  <script src="script.js"></script>
+</body>
+</html>
