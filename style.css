@@ -33,8 +33,8 @@ button {
   border-radius: 5px;
 }
 
-#result {
+#roulette {
   margin-top: 30px;
-  font-size: 20px;
-  color: #0077cc;
+  border: 5px solid #333;
+  border-radius: 50%;
 }
