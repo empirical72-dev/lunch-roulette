@@ -1,0 +1,171 @@
+let participants = [];
+let options = ["점심값", "커피값", "면제권"]; // 기본값
+let spinning = false;
+let angle = 0;
+let spinVelocity = 0;
+let currentTurn = 0;
+
+// 참가자 관리
+function addParticipant() {
+  const input = document.getElementById("participantInput");
+  if (input.value.trim() !== "") {
+    participants.push(input.value.trim());
+    renderParticipants();
+    input.value = "";
+  }
+}
+
+function renderParticipants() {
+  const list = document.getElementById("participantList");
+  list.innerHTML = "";
+  participants.forEach((name, i) => {
+    list.innerHTML += `
+      <div>
+        ${i+1}. ${name}
+        <button onclick="editParticipant(${i})">수정</button>
+        <button onclick="deleteParticipant(${i})">삭제</button>
+      </div>`;
+  });
+}
+
+function editParticipant(index) {
+  const newName = prompt("새 이름 입력:", participants[index]);
+  if (newName) {
+    participants[index] = newName;
+    renderParticipants();
+  }
+}
+
+function deleteParticipant(index) {
+  participants.splice(index, 1);
+  renderParticipants();
+}
+
+// 룰렛 항목 관리
+function addOption() {
+  const input = document.getElementById("optionInput");
+  if (input.value.trim() !== "") {
+    options.push(input.value.trim());
+    renderOptions();
+    input.value = "";
+    drawRoulette();
+  }
+}
+
+function renderOptions() {
+  const list = document.getElementById("optionList");
+  list.innerHTML = "";
+  options.forEach((opt, i) => {
+    list.innerHTML += `
+      <div>
+        ${i+1}. ${opt}
+        <button onclick="editOption(${i})">수정</button>
+        <button onclick="deleteOption(${i})">삭제</button>
+      </div>`;
+  });
+}
+
+function editOption(index) {
+  const newOpt = prompt("새 항목 입력:", options[index]);
+  if (newOpt) {
+    options[index] = newOpt;
+    renderOptions();
+    drawRoulette();
+  }
+}
+
+function deleteOption(index) {
+  options.splice(index, 1);
+  renderOptions();
+  drawRoulette();
+}
+
+// 리셋
+function resetRoulette() {
+  participants = [];
+  options = ["점심값", "커피값", "면제권"];
+  currentTurn = 0;
+  document.getElementById("participantList").innerHTML = "";
+  document.getElementById("optionList").innerHTML = "";
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("history").innerHTML = "";
+  renderOptions();
+  drawRoulette();
+}
+
+// 룰렛 그리기
+function drawRoulette() {
+  const canvas = document.getElementById("roulette");
+  const ctx = canvas.getContext("2d");
+  const numOptions = options.length;
+  if (numOptions === 0) return;
+  const arc = 2 * Math.PI / numOptions;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  options.forEach((opt, i) => {
+    const angleStart = i * arc;
+    ctx.beginPath();
+    ctx.fillStyle = i % 2 === 0 ? "red" : "black";
+    ctx.moveTo(200, 200);
+    ctx.arc(200, 200, 200, angleStart, angleStart + arc);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(200, 200);
+    ctx.rotate(angleStart + arc / 2);
+    ctx.fillStyle = "white";
+    ctx.font = "16px Arial";
+    ctx.fillText(opt, 80, 10);
+    ctx.restore();
+  });
+}
+
+// 룰렛 돌리기
+function spinRoulette() {
+  if (spinning || participants.length === 0 || currentTurn >= participants.length) return;
+  spinning = true;
+  spinVelocity = Math.random() * 0.3 + 0.25;
+  animateSpin();
+}
+
+function animateSpin() {
+  const canvas = document.getElementById("roulette");
+  const ctx = canvas.getContext("2d");
+
+  angle += spinVelocity;
+  spinVelocity *= 0.98;
+
+  ctx.save();
+  ctx.translate(200, 200);
+  ctx.rotate(angle);
+  ctx.translate(-200, -200);
+  drawRoulette();
+  ctx.restore();
+
+  if (spinVelocity > 0.002) {
+    requestAnimationFrame(animateSpin);
+  } else {
+    spinning = false;
+    showResult();
+  }
+}
+
+// 결과 판정
+function showResult() {
+  const numOptions = options.length;
+  const arc = 2 * Math.PI / numOptions;
+  const selectedIndex = Math.floor(((2 * Math.PI - (angle % (2 * Math.PI))) / arc)) % numOptions;
+  const outcome = options[selectedIndex];
+
+  const currentPlayer = participants[currentTurn] || "참가자 없음";
+  document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
+  document.getElementById("history").innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
+
+  currentTurn++; // 다음 참가자 차례
+}
+
+// 초기 렌더링
+renderOptions();
+drawRoulette();
