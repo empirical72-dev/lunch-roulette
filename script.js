@@ -3,7 +3,6 @@ let options = [];
 let canvas = document.getElementById("roulette");
 let ctx = canvas.getContext("2d");
 let currentAngle = 0;
-let assignedResults = [];
 let currentIndex = 0;
 
 // 참가자 추가
@@ -12,12 +11,29 @@ function addParticipant() {
   const name = input.value.trim();
   if (name) {
     participants.push(name);
-    document.getElementById("participantList").innerText = participants.join(", ");
+    renderParticipants();
     input.value = "";
   }
 }
 
-// 항목 추가 (개수만큼 슬롯 생성)
+function renderParticipants() {
+  const list = document.getElementById("participantList");
+  list.innerHTML = "";
+  participants.forEach((p, i) => {
+    const li = document.createElement("li");
+    li.textContent = p;
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "삭제";
+    delBtn.onclick = () => {
+      participants.splice(i, 1);
+      renderParticipants();
+    };
+    li.appendChild(delBtn);
+    list.appendChild(li);
+  });
+}
+
+// 항목 추가
 function addOption() {
   const name = document.getElementById("optionName").value.trim();
   const count = parseInt(document.getElementById("optionCount").value);
@@ -25,11 +41,29 @@ function addOption() {
     for (let i = 0; i < count; i++) {
       options.push(name);
     }
-    document.getElementById("optionList").innerText = options.join(", ");
+    renderOptions();
     document.getElementById("optionName").value = "";
     document.getElementById("optionCount").value = "";
     drawRoulette();
   }
+}
+
+function renderOptions() {
+  const list = document.getElementById("optionList");
+  list.innerHTML = "";
+  options.forEach((o, i) => {
+    const li = document.createElement("li");
+    li.textContent = o;
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "삭제";
+    delBtn.onclick = () => {
+      options.splice(i, 1);
+      renderOptions();
+      drawRoulette();
+    };
+    li.appendChild(delBtn);
+    list.appendChild(li);
+  });
 }
 
 // 룰렛 그리기
@@ -39,16 +73,22 @@ function drawRoulette() {
   const anglePerSlice = 2 * Math.PI / total;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  const colors = ["#ffcc00", "#ff9900", "#66ccff", "#ff6699", "#99cc33", "#cc66ff"];
+
   options.forEach((opt, i) => {
     const startAngle = i * anglePerSlice + currentAngle;
     const endAngle = startAngle + anglePerSlice;
 
-    ctx.fillStyle = i % 2 === 0 ? "#ffcc00" : "#ff9900";
+    ctx.fillStyle = colors[i % colors.length];
     ctx.beginPath();
     ctx.moveTo(canvas.width/2, canvas.height/2);
     ctx.arc(canvas.width/2, canvas.height/2, canvas.width/2, startAngle, endAngle);
     ctx.closePath();
     ctx.fill();
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
     ctx.save();
     ctx.translate(canvas.width/2, canvas.height/2);
@@ -58,16 +98,22 @@ function drawRoulette() {
     ctx.fillText(opt, canvas.width/4, 0);
     ctx.restore();
   });
+
+  // 외곽선
+  ctx.beginPath();
+  ctx.arc(canvas.width/2, canvas.height/2, canvas.width/2, 0, 2*Math.PI);
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  ctx.stroke();
 }
 
 // 리셋
 function resetRoulette() {
   participants = [];
   options = [];
-  assignedResults = [];
   currentIndex = 0;
-  document.getElementById("participantList").innerText = "";
-  document.getElementById("optionList").innerText = "";
+  document.getElementById("participantList").innerHTML = "";
+  document.getElementById("optionList").innerHTML = "";
   document.getElementById("result").innerText = "";
   document.getElementById("history").innerHTML = "";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -79,17 +125,6 @@ function spinRoulette() {
     alert("참가자와 항목을 먼저 입력하세요!");
     return;
   }
-
-  // 결과 매핑을 한 번만 생성
-  if (assignedResults.length === 0) {
-    let shuffledOptions = [...options];
-    while (shuffledOptions.length < participants.length) {
-      shuffledOptions.push("꽝");
-    }
-    shuffledOptions = shuffledOptions.sort(() => Math.random() - 0.5);
-    assignedResults = shuffledOptions;
-  }
-
   if (currentIndex >= participants.length) {
     alert("모든 참가자에게 결과가 배정되었습니다.");
     return;
@@ -109,14 +144,4 @@ function spinRoulette() {
       currentAngle = spinAngle * Math.PI / 180;
       drawRoulette();
 
-      const resultOption = assignedResults[currentIndex];
-      const winner = participants[currentIndex];
-      currentIndex++;
-
-      document.getElementById("result").innerHTML = `<h2>${winner} → ${resultOption}</h2>`;
-      const historyRow = `<tr><td>${winner}</td><td>${resultOption}</td></tr>`;
-      document.getElementById("history").innerHTML += historyRow;
-    }
-  }
-  requestAnimationFrame(animate);
-}
+      const sliceAngle =

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>점심 룰렛 🎰</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <h1>점심 룰렛 🎰</h1>
@@ -12,13 +12,13 @@
     <h3>참가자 입력</h3>
     <input type="text" id="participantInput" placeholder="참가자 이름 입력">
     <button onclick="addParticipant()">추가</button>
-    <div id="participantList"></div>
+    <ul id="participantList"></ul>
 
     <h3>룰렛 항목 입력</h3>
     <input type="text" id="optionName" placeholder="항목 이름 (예: 점심값)">
     <input type="number" id="optionCount" placeholder="개수 (예: 2)" min="1">
     <button onclick="addOption()">추가</button>
-    <div id="optionList"></div>
+    <ul id="optionList"></ul>
 
     <button onclick="resetRoulette()">리셋</button>
   </div>
@@ -38,6 +38,6 @@
     <tbody id="history"></tbody>
   </table>
 
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>
