@@ -3,6 +3,8 @@ let options = [];
 let canvas = document.getElementById("roulette");
 let ctx = canvas.getContext("2d");
 let currentAngle = 0;
+let assignedResults = [];
+let currentIndex = 0;
 
 // 참가자 추가
 function addParticipant() {
@@ -62,6 +64,8 @@ function drawRoulette() {
 function resetRoulette() {
   participants = [];
   options = [];
+  assignedResults = [];
+  currentIndex = 0;
   document.getElementById("participantList").innerText = "";
   document.getElementById("optionList").innerText = "";
   document.getElementById("result").innerText = "";
@@ -75,7 +79,23 @@ function spinRoulette() {
     alert("참가자와 항목을 먼저 입력하세요!");
     return;
   }
-  const spinAngle = Math.random() * 360 + 720; // 최소 두 바퀴 이상
+
+  // 결과 매핑을 한 번만 생성
+  if (assignedResults.length === 0) {
+    let shuffledOptions = [...options];
+    while (shuffledOptions.length < participants.length) {
+      shuffledOptions.push("꽝");
+    }
+    shuffledOptions = shuffledOptions.sort(() => Math.random() - 0.5);
+    assignedResults = shuffledOptions;
+  }
+
+  if (currentIndex >= participants.length) {
+    alert("모든 참가자에게 결과가 배정되었습니다.");
+    return;
+  }
+
+  const spinAngle = Math.random() * 360 + 720;
   const duration = 3000;
   const start = performance.now();
 
@@ -89,14 +109,9 @@ function spinRoulette() {
       currentAngle = spinAngle * Math.PI / 180;
       drawRoulette();
 
-      // 결과 계산
-      const sliceAngle = 2 * Math.PI / options.length;
-      const finalAngle = (2 * Math.PI - (currentAngle % (2 * Math.PI)));
-      const index = Math.floor(finalAngle / sliceAngle) % options.length;
-      const resultOption = options[index];
-
-      // 참가자 중 한 명 랜덤 배정
-      const winner = participants[Math.floor(Math.random() * participants.length)];
+      const resultOption = assignedResults[currentIndex];
+      const winner = participants[currentIndex];
+      currentIndex++;
 
       document.getElementById("result").innerHTML = `<h2>${winner} → ${resultOption}</h2>`;
       const historyRow = `<tr><td>${winner}</td><td>${resultOption}</td></tr>`;

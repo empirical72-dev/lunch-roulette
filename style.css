@@ -1,6 +1,5 @@
 body {
-  font-family: 'Noto Sans KR', '맑은 고딕', Arial, sans-serif;
-  font-size: 16px;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
   text-align: center;
   background: radial-gradient(circle at center, #222 0%, #000 100%);
   color: gold;
@@ -10,19 +9,16 @@ body {
 
 h1 {
   text-shadow: 2px 2px 8px black;
-  font-size: 28px;
 }
 
 .settings input {
   padding: 6px;
-  font-size: 14px;
   margin: 4px;
 }
 
 button {
   margin: 6px;
   padding: 6px 14px;
-  font-size: 14px;
   background: gold;
   border: none;
   border-radius: 6px;
@@ -39,7 +35,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 60px; /* 리셋 버튼과 간격을 넉넉히 확보 */
 }
 
 .pointer {
@@ -51,33 +47,22 @@ button:hover {
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 25px solid gold;
+  border-top: 25px solid gold; /* 아래쪽을 향하는 삼각형 */
 }
 .pointer::after {
   content: "";
   position: absolute;
-  top: -12px;
+  bottom: 25px;   /* 삼각형 위쪽에 꼬리 붙이기 */
   left: -3px;
   width: 6px;
   height: 12px;
   background: gold;
 }
 
-.spin-btn {
-  margin-top: 20px;
-  font-size: 16px;
-}
-
-#result h2 {
-  font-size: 18px;
-}
-
 #historyTable {
   margin: 0 auto;
   border-collapse: collapse;
-  font-size: 14px;
 }
-
 #historyTable th, #historyTable td {
   border: 1px solid gold;
   padding: 6px 12px;
