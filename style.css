@@ -42,7 +42,7 @@ button:hover {
   margin-top: 20px;
 }
 
-/* 짧은 꼬리 화살표 */
+/* 짧은 꼬리 화살표 (아래를 향함) */
 .pointer {
   position: absolute;
   top: -30px;   /* 룰렛 위쪽에 딱 붙도록 */
