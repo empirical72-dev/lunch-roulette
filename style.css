@@ -42,16 +42,26 @@ button:hover {
   margin-top: 20px;
 }
 
+/* 짧은 꼬리 화살표 */
 .pointer {
   position: absolute;
-  top: -15px;   /* 룰렛 위쪽에 걸쳐지도록 */
+  top: -30px;   /* 룰렛 위쪽에 딱 붙도록 */
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 25px solid gold; /* 위쪽을 가리키도록 */
+  border-top: 25px solid gold; /* 아래쪽을 향하는 삼각형 */
+}
+.pointer::after {
+  content: "";
+  position: absolute;
+  top: -10px;   /* 삼각형 위쪽에 꼬리 붙이기 */
+  left: -3px;
+  width: 6px;
+  height: 10px;
+  background: gold;
 }
 
 .spin-btn {

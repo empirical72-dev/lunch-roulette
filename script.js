@@ -155,14 +155,9 @@ function animateSpin() {
   }
 }
 
-// 결과 판정 (포인터 위쪽 기준)
+// 결과 판정 (포인터 위쪽 기준, 아래를 향하는 화살표)
 function showResult() {
   const numOptions = options.length;
   const arc = 2 * Math.PI / numOptions;
   const adjustedAngle = (2 * Math.PI - (angle % (2 * Math.PI))) % (2 * Math.PI);
-  const selectedIndex = Math.floor(adjustedAngle / arc) % numOptions;
-  const outcome = options[selectedIndex];
-
-  const currentPlayer = participants[currentTurn] || "참가자 없음";
-  document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
-  document.getElementById("history").innerHTML += `<tr><td>${current
+  const selectedIndex = Math
