@@ -45,7 +45,7 @@ button:hover {
 /* 아래를 향하는 삼각형 + 윗부분에 짧은 꼬리 */
 .pointer {
   position: absolute;
-  top: -40px;   /* 룰렛 위쪽에 딱 붙도록 */
+  top: -40px;   /* 룰렛 위쪽에서 띄우기 */
   left: 50%;
   transform: translateX(-50%);
   width: 0;
