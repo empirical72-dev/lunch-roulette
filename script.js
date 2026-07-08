@@ -1,6 +1,6 @@
 let participants = [];
-let summary = {}; // 항목별 개수 저장
-let options = []; // 룰렛 배열
+let summary = {};
+let options = [];
 let spinning = false;
 let angle = 0;
 let spinVelocity = 0;
@@ -119,7 +119,7 @@ function drawRoulette() {
     ctx.translate(200, 200);
     ctx.rotate(angleStart + arc / 2);
     ctx.fillStyle = "white";
-    ctx.font = "16px Arial";
+    ctx.font = "14px Arial";
     ctx.fillText(opt, 80, 10);
     ctx.restore();
   });
@@ -155,17 +155,14 @@ function animateSpin() {
   }
 }
 
-// 결과 판정 (포인터 아래쪽 기준)
+// 결과 판정 (포인터 위쪽 기준)
 function showResult() {
   const numOptions = options.length;
   const arc = 2 * Math.PI / numOptions;
-  const adjustedAngle = (2 * Math.PI - (angle % (2 * Math.PI)) - Math.PI/2 + 2*Math.PI) % (2 * Math.PI);
+  const adjustedAngle = (2 * Math.PI - (angle % (2 * Math.PI))) % (2 * Math.PI);
   const selectedIndex = Math.floor(adjustedAngle / arc) % numOptions;
   const outcome = options[selectedIndex];
 
   const currentPlayer = participants[currentTurn] || "참가자 없음";
   document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
-  document.getElementById("history").innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
-
-  currentTurn++;
-}
+  document.getElementById("history").innerHTML += `<tr><td>${current

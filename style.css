@@ -1,6 +1,6 @@
 body {
   font-family: 'Noto Sans KR', '맑은 고딕', Arial, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   background: radial-gradient(circle at center, #222 0%, #000 100%);
   color: gold;
@@ -10,23 +10,22 @@ body {
 
 h1 {
   text-shadow: 2px 2px 8px black;
-  font-size: 32px;
+  font-size: 28px;
 }
 
-.settings {
-  margin: 20px;
-  padding: 15px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
+.settings input {
+  padding: 6px;
+  font-size: 14px;
+  margin: 4px;
 }
 
 button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
+  margin: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
   background: gold;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
 }
@@ -37,22 +36,40 @@ button:hover {
 
 .roulette-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .pointer {
   position: absolute;
-  bottom: -15px;   /* 아래쪽으로 위치 */
+  top: -15px;   /* 룰렛 위쪽에 걸쳐지도록 */
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 25px solid gold; /* 아래쪽을 가리키도록 변경 */
+  border-bottom: 25px solid gold; /* 위쪽을 가리키도록 */
 }
 
 .spin-btn {
   margin-top: 20px;
-  font-size: 20px;
+  font-size: 16px;
+}
+
+#result h2 {
+  font-size: 18px;
+}
+
+#historyTable {
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+#historyTable th, #historyTable td {
+  border: 1px solid gold;
+  padding: 6px 12px;
 }
