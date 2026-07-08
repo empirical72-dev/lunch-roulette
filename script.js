@@ -1,8 +1,9 @@
 let participants = [];
-let options = [];
+let options = ["점심값", "커피값", "면제권"];
 let spinning = false;
 let angle = 0;
 let spinVelocity = 0;
+let currentTurn = 0; // 참가자 순서 관리
 
 function addParticipant() {
   const input = document.getElementById("participantInput");
@@ -19,7 +20,7 @@ function renderParticipants() {
   participants.forEach((name, i) => {
     list.innerHTML += `
       <div>
-        ${name}
+        ${i+1}. ${name}
         <button onclick="editParticipant(${i})">수정</button>
         <button onclick="deleteParticipant(${i})">삭제</button>
       </div>`;
@@ -39,22 +40,9 @@ function deleteParticipant(index) {
   renderParticipants();
 }
 
-function setupRoulette() {
-  const lunchCount = parseInt(document.getElementById("lunchCount").value);
-  const coffeeCount = parseInt(document.getElementById("coffeeCount").value);
-  const total = participants.length;
-
-  options = [];
-  for (let i = 0; i < lunchCount; i++) options.push("점심값");
-  for (let i = 0; i < coffeeCount; i++) options.push("커피값");
-  while (options.length < total) options.push("면제권");
-
-  drawRoulette();
-}
-
 function resetRoulette() {
   participants = [];
-  options = [];
+  currentTurn = 0;
   document.getElementById("participantList").innerHTML = "";
   document.getElementById("result").innerHTML = "";
   document.getElementById("history").innerHTML = "";
@@ -65,10 +53,6 @@ function drawRoulette() {
   const canvas = document.getElementById("roulette");
   const ctx = canvas.getContext("2d");
   const numOptions = options.length;
-  if (numOptions === 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    return;
-  }
   const arc = 2 * Math.PI / numOptions;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -93,7 +77,7 @@ function drawRoulette() {
 }
 
 function spinRoulette() {
-  if (spinning || options.length === 0) return;
+  if (spinning || participants.length === 0 || currentTurn >= participants.length) return;
   spinning = true;
   spinVelocity = Math.random() * 0.3 + 0.25;
   animateSpin();
@@ -126,11 +110,10 @@ function showResult() {
   const arc = 2 * Math.PI / numOptions;
   const selectedIndex = Math.floor(((2 * Math.PI - (angle % (2 * Math.PI))) / arc)) % numOptions;
   const outcome = options[selectedIndex];
-  const currentPlayer = participants[selectedIndex] || "참가자 없음";
 
-  const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
+  const currentPlayer = participants[currentTurn] || "참가자 없음";
+  document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
+  document.getElementById("history").innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
 
-  const history = document.getElementById("history");
-  history.innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
+  currentTurn++; // 다음 참가자 차례
 }
