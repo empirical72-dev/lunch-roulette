@@ -1,5 +1,6 @@
 let participants = [];
-let options = []; // 실제 룰렛 배열
+let summary = {}; // 항목별 개수 저장
+let options = []; // 룰렛 배열
 let spinning = false;
 let angle = 0;
 let spinVelocity = 0;
@@ -49,9 +50,8 @@ function addOption() {
   const count = parseInt(countInput.value);
 
   if (name !== "" && count > 0) {
-    for (let i = 0; i < count; i++) {
-      options.push(name);
-    }
+    summary[name] = (summary[name] || 0) + count;
+    rebuildOptions();
     renderOptions();
     nameInput.value = "";
     countInput.value = "";
@@ -59,13 +59,18 @@ function addOption() {
   }
 }
 
+function rebuildOptions() {
+  options = [];
+  Object.keys(summary).forEach(opt => {
+    for (let i = 0; i < summary[opt]; i++) {
+      options.push(opt);
+    }
+  });
+}
+
 function renderOptions() {
   const list = document.getElementById("optionList");
   list.innerHTML = "";
-  const summary = {};
-  options.forEach(opt => {
-    summary[opt] = (summary[opt] || 0) + 1;
-  });
   Object.keys(summary).forEach((opt, i) => {
     list.innerHTML += `
       <div>
@@ -77,6 +82,7 @@ function renderOptions() {
 // 리셋
 function resetRoulette() {
   participants = [];
+  summary = {};
   options = [];
   currentTurn = 0;
   document.getElementById("participantList").innerHTML = "";
@@ -91,7 +97,10 @@ function drawRoulette() {
   const canvas = document.getElementById("roulette");
   const ctx = canvas.getContext("2d");
   const numOptions = options.length;
-  if (numOptions === 0) return;
+  if (numOptions === 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
   const arc = 2 * Math.PI / numOptions;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,16 +154,17 @@ function animateSpin() {
   }
 }
 
-// 결과 판정
+// 결과 판정 (포인터 보정 적용)
 function showResult() {
   const numOptions = options.length;
   const arc = 2 * Math.PI / numOptions;
-  const selectedIndex = Math.floor(((2 * Math.PI - (angle % (2 * Math.PI))) / arc)) % numOptions;
+  const adjustedAngle = (2 * Math.PI - (angle % (2 * Math.PI)) + Math.PI/2) % (2 * Math.PI);
+  const selectedIndex = Math.floor(adjustedAngle / arc) % numOptions;
   const outcome = options[selectedIndex];
 
   const currentPlayer = participants[currentTurn] || "참가자 없음";
   document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
   document.getElementById("history").innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
 
-  currentTurn++; // 다음 참가자 차례
+  currentTurn++;
 }
