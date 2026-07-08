@@ -102,13 +102,14 @@ function drawRoulette() {
     return;
   }
   const arc = 2 * Math.PI / numOptions;
+  const colors = ["#e74c3c","#3498db","#2ecc71","#f1c40f","#9b59b6","#1abc9c","#e67e22","#34495e"];
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   options.forEach((opt, i) => {
     const angleStart = i * arc;
     ctx.beginPath();
-    ctx.fillStyle = i % 2 === 0 ? "red" : "black";
+    ctx.fillStyle = colors[i % colors.length];
     ctx.moveTo(200, 200);
     ctx.arc(200, 200, 200, angleStart, angleStart + arc);
     ctx.closePath();
@@ -154,17 +155,14 @@ function animateSpin() {
   }
 }
 
-// 결과 판정 (포인터 보정 적용)
+// 결과 판정 (포인터 아래쪽 기준)
 function showResult() {
   const numOptions = options.length;
   const arc = 2 * Math.PI / numOptions;
-  const adjustedAngle = (2 * Math.PI - (angle % (2 * Math.PI)) + Math.PI/2) % (2 * Math.PI);
+  const adjustedAngle = (2 * Math.PI - (angle % (2 * Math.PI)) - Math.PI/2 + 2*Math.PI) % (2 * Math.PI);
   const selectedIndex = Math.floor(adjustedAngle / arc) % numOptions;
   const outcome = options[selectedIndex];
 
   const currentPlayer = participants[currentTurn] || "참가자 없음";
   document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
-  document.getElementById("history").innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
-
-  currentTurn++;
-}
+  document.getElementById("history").innerHTML += `<li>${
