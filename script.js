@@ -165,4 +165,7 @@ function showResult() {
 
   const currentPlayer = participants[currentTurn] || "참가자 없음";
   document.getElementById("result").innerHTML = `<h2>${currentPlayer} → ${outcome} 당첨!</h2>`;
-  document.getElementById("history").innerHTML += `<li>${
+  document.getElementById("history").innerHTML += `<li>${currentPlayer} → ${outcome}</li>`;
+
+  currentTurn++;
+}

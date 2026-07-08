@@ -1,12 +1,16 @@
 body {
-  font-family: 'Georgia', serif;
+  font-family: 'Noto Sans KR', '맑은 고딕', Arial, sans-serif;
+  font-size: 18px;
   text-align: center;
   background: radial-gradient(circle at center, #222 0%, #000 100%);
   color: gold;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
   text-shadow: 2px 2px 8px black;
+  font-size: 32px;
 }
 
 .settings {
@@ -18,8 +22,8 @@ h1 {
 
 button {
   margin: 10px;
-  padding: 12px 28px;
-  font-size: 18px;
+  padding: 10px 20px;
+  font-size: 16px;
   background: gold;
   border: none;
   border-radius: 8px;
