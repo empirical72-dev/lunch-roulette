@@ -1,5 +1,5 @@
 let participants = [];
-let options = ["점심값", "커피값", "면제권"]; // 기본값
+let options = []; // 실제 룰렛 배열
 let spinning = false;
 let angle = 0;
 let spinVelocity = 0;
@@ -43,11 +43,18 @@ function deleteParticipant(index) {
 
 // 룰렛 항목 관리
 function addOption() {
-  const input = document.getElementById("optionInput");
-  if (input.value.trim() !== "") {
-    options.push(input.value.trim());
+  const nameInput = document.getElementById("optionName");
+  const countInput = document.getElementById("optionCount");
+  const name = nameInput.value.trim();
+  const count = parseInt(countInput.value);
+
+  if (name !== "" && count > 0) {
+    for (let i = 0; i < count; i++) {
+      options.push(name);
+    }
     renderOptions();
-    input.value = "";
+    nameInput.value = "";
+    countInput.value = "";
     drawRoulette();
   }
 }
@@ -55,41 +62,27 @@ function addOption() {
 function renderOptions() {
   const list = document.getElementById("optionList");
   list.innerHTML = "";
-  options.forEach((opt, i) => {
+  const summary = {};
+  options.forEach(opt => {
+    summary[opt] = (summary[opt] || 0) + 1;
+  });
+  Object.keys(summary).forEach((opt, i) => {
     list.innerHTML += `
       <div>
-        ${i+1}. ${opt}
-        <button onclick="editOption(${i})">수정</button>
-        <button onclick="deleteOption(${i})">삭제</button>
+        ${i+1}. ${opt} (${summary[opt]}명)
       </div>`;
   });
-}
-
-function editOption(index) {
-  const newOpt = prompt("새 항목 입력:", options[index]);
-  if (newOpt) {
-    options[index] = newOpt;
-    renderOptions();
-    drawRoulette();
-  }
-}
-
-function deleteOption(index) {
-  options.splice(index, 1);
-  renderOptions();
-  drawRoulette();
 }
 
 // 리셋
 function resetRoulette() {
   participants = [];
-  options = ["점심값", "커피값", "면제권"];
+  options = [];
   currentTurn = 0;
   document.getElementById("participantList").innerHTML = "";
   document.getElementById("optionList").innerHTML = "";
   document.getElementById("result").innerHTML = "";
   document.getElementById("history").innerHTML = "";
-  renderOptions();
   drawRoulette();
 }
 
@@ -165,7 +158,3 @@ function showResult() {
 
   currentTurn++; // 다음 참가자 차례
 }
-
-// 초기 렌더링
-renderOptions();
-drawRoulette();
