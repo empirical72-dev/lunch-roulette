@@ -42,7 +42,7 @@ button:hover {
   margin-top: 20px;
 }
 
-/* 짧은 꼬리 화살표 (아래를 향함) */
+/* 아래를 향하는 삼각형 + 윗부분에 짧은 꼬리 */
 .pointer {
   position: absolute;
   top: -30px;   /* 룰렛 위쪽에 딱 붙도록 */
@@ -57,7 +57,7 @@ button:hover {
 .pointer::after {
   content: "";
   position: absolute;
-  top: -10px;   /* 삼각형 위쪽에 꼬리 붙이기 */
+  top: -10px;   /* 삼각형 윗부분에 꼬리 붙이기 */
   left: -3px;
   width: 6px;
   height: 10px;
