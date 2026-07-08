@@ -141,4 +141,18 @@ function spinRoulette() {
       drawRoulette();
       requestAnimationFrame(animate);
     } else {
-      currentAngle = spinAngle * Math.PI
+      currentAngle = spinAngle * Math.PI / 180;
+      drawRoulette();
+
+      // 결과 계산
+      const sliceAngle = 2 * Math.PI / options.length;
+      const finalAngle = (2 * Math.PI - (currentAngle % (2 * Math.PI)));
+      const index = Math.floor(finalAngle / sliceAngle) % options.length;
+      const resultOption = options[index];
+
+      const winner = participants[currentIndex];
+      currentIndex++;
+
+      // 결과 표시
+      document.getElementById("result").innerHTML = `<h2>${winner} → ${resultOption}</h2>`;
+      const historyRow =
