@@ -44,7 +44,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px; /* 리셋 버튼과 간격 확보 */
+  margin-top: 60px;
 }
 
 .pointer {
@@ -61,7 +61,7 @@ button:hover {
 .pointer::after {
   content: "";
   position: absolute;
-  bottom: 25px;   /* 삼각형 위쪽에 꼬리 붙이기 */
+  bottom: 25px;
   left: -3px;
   width: 6px;
   height: 12px;

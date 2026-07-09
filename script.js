@@ -155,4 +155,5 @@ function spinRoulette() {
 
       // 결과 표시
       document.getElementById("result").innerHTML = `<h2>${winner} → ${resultOption}</h2>`;
-      const historyRow =
+      const historyRow = `<tr><td>${winner}</td><td>${resultOption}</td></tr>`;
+      document.getElementById("history").innerHTML
